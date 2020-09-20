@@ -1,0 +1,64 @@
+\documentclass{ltjsarticle}
+\usepackage[noprefix]{extchordalring}
+\usepackage{showexpl}
+\usepackage{tikz}
+\usepackage{color}
+\usepackage[margin=1in]{geometry}
+
+\lstset{
+  frame=tb,
+  basicstyle=\ttfamily\bfseries,
+  commentstyle=\color{darkgray},
+  keywordstyle=\color{blue}
+}
+
+\begin{document}
+\begin{LTXexample}[pos=r]
+%preambles
+\usepackage{extchordalring}
+\usepackage{tikz}
+
+\begin{tikzpicture}
+  \xcrCR(14, 3)
+\end{tikzpicture}
+\end{LTXexample}
+
+\begin{LTXexample}[pos=r]
+\begin{tikzpicture}
+  \xcrCR(14, 3, 7)
+\end{tikzpicture}
+\end{LTXexample}
+
+\begin{LTXexample}[pos=r]
+\begin{tikzpicture}
+  \xcrCR(14)[
+    0/1,
+    1/2, 1/4, 1/8, 1/12,
+    2/3, 2/5, 2/9, 2/13,
+    4/7,
+    5/6,
+    9/10,
+    10/11
+  ]
+\end{tikzpicture}
+\end{LTXexample}
+
+\begin{LTXexample}[pos=r]
+\begin{tikzpicture}
+  \xcrCR(14)[]
+\end{tikzpicture}
+
+\end{LTXexample}
+
+\begin{LTXexample}[pos=r]
+%preambles
+%option noprefix defines \CR commands
+%without "xcr" prefix
+\usepackage[noprefix]{extchordalring}
+\usepackage{tikz}
+
+\begin{tikzpicture}
+  \CR(14, 3)
+\end{tikzpicture}
+\end{LTXexample}
+\end{document}
