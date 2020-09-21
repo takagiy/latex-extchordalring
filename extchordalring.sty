@@ -3,9 +3,19 @@
 \RequirePackage{xparse}
 \RequirePackage{xstring}
 \RequirePackage{trimspaces}
+\RequirePackage{tikz}
 
 \DeclareOption{noprefix}{\newcommand\CR{\xcrCR}}
 \ProcessOptions\relax
+
+\NewDocumentCommand\xcrNodeStyle{m}{
+  \tikzset{xcrNode/.style={#1}}
+}
+
+\xcrNodeStyle{
+  shape=circle,
+  fill=black,
+}
 
 \NewDocumentCommand\xcrCR{r()o}{
   \IfSubStr{#1}{,} {
@@ -18,10 +28,7 @@
 \def\xcr@CR@detail#1,#2\relax#3\relax{
   \pgfmathsetmacro{\xcr@before@n}{#1-1}
   \draw \foreach \xcr@i in {0,...,\xcr@before@n} {
-    (90-\xcr@i*360/#1:2) node[
-      shape=circle,
-      fill=black,
-    ] (\xcr@i) {}
+    (90-\xcr@i*360/#1:2) node[xcrNode] (\xcr@i) {}
     
     (90-\xcr@i*360/#1:2.5) node {\xcr@i}
 
