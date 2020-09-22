@@ -51,15 +51,24 @@
 }
 
 \def\xcr@connect@nodes#1\relax{
-  \setsepchar{ }
-  \readlist*\xcr@nodes@list{#1}
-  \foreachitem \xcr@node \in \xcr@nodes@list {
-    \ifx\xcr@node\empty
-    \else
-      \ifnum\xcr@nodecnt>1
-        \draw (\xcr@prev@node) -- (\xcr@node);
-      \fi
-      \edef\xcr@prev@node{\xcr@node}
+  \xcr@foreachitem \xcr@node \in #1\splitby{ } {
+    \ifnum\xcr@nodecnt>1
+      \draw (\xcr@prev@node) -- (\xcr@node);
     \fi
+    \edef\xcr@prev@node{\xcr@node}
   }
+}
+
+\def\xcr@foreachitem#1\in#2\splitby#3#4{
+  \setsepchar{#3}
+  \readlist*\xcr@foreachitem@list{#2}
+  \def\xcr@foreachitem@foreachitem##1\relax{%
+    \foreachitem#1\in\xcr@foreachitem@list{
+      \ifx#1\empty
+      \else
+      ##1
+      \fi
+    }%
+  }
+  \expandafter\xcr@foreachitem@foreachitem#4\relax
 }
