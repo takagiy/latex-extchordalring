@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{extchordalring}[2020/9/20 v0.2.0]
+\ProvidesPackage{extchordalring}[2020/9/23 v0.3.0]
 \RequirePackage{xparse}
 \RequirePackage{xstring}
 \RequirePackage{trimspaces}
@@ -45,12 +45,18 @@
   };
   \IfNoValueF{#3} {
     \foreach \xcr@path@nodes in {#3} {
-      \xcr@connect@nodes\xcr@path@nodes\relax
+      \xcr@draw@edges\xcr@path@nodes\relax
     }
   }
 }
 
-\def\xcr@connect@nodes#1\relax{
+\def\xcr@draw@edges#1\relax{
+  \IfSubStr{#1}{adj}
+    {\xcr@connect@neighbors#1\relax}
+    {\xcr@connect@path#1\relax}
+}
+
+\def\xcr@connect@path#1\relax{
   \xcr@foreachitem \xcr@node \in #1\splitby{ } {
     \ifnum\xcr@nodecnt>1
       \draw (\xcr@prev@node) -- (\xcr@node);
@@ -59,16 +65,34 @@
   }
 }
 
-\def\xcr@foreachitem#1\in#2\splitby#3#4{
-  \setsepchar{#3}
-  \readlist*\xcr@foreachitem@list{#2}
-  \def\xcr@foreachitem@foreachitem##1\relax{%
-    \foreachitem#1\in\xcr@foreachitem@list{
-      \ifx#1\empty
-      \else
-      ##1
-      \fi
-    }%
+\def\xcr@connect@neighbors#1\relax{
+  \edef\xcr@args{#1}
+  \expandafter\xcr@connect@neighbors@detail\xcr@args\relax
+}
+
+\def\xcr@connect@neighbors@detail#1adj#2\relax{
+  \xcr@foreachitem \xcr@node \in #2\splitby{ } {
+    \draw (\trim@spaces{#1}) -- (\xcr@node);
   }
-  \expandafter\xcr@foreachitem@foreachitem#4\relax
+}
+
+\def\xcr@foreachitem#1\in#2\splitby#3#4{
+  \xcr@if@not@empty#2
+    \setsepchar{#3}
+    \readlist*\xcr@foreachitem@list{#2}
+    \def\xcr@foreachitem@foreachitem##1\relax{%
+      \foreachitem#1\in\xcr@foreachitem@list{
+        \ifx#1\empty
+        \else
+        ##1
+        \fi
+      }%
+    }
+    \expandafter\xcr@foreachitem@foreachitem#4\relax
+  \fi
+}
+
+\def\xcr@if@not@empty#1{
+  \edef\xcr@args{\trim@spaces{#1}}
+  \ifx\xcr@args\empty\else
 }
