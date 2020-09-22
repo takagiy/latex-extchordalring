@@ -4,6 +4,7 @@
 \RequirePackage{xstring}
 \RequirePackage{trimspaces}
 \RequirePackage{tikz}
+\RequirePackage{listofitems}
 
 \DeclareOption{noprefix}{\newcommand\CR{\xcrCR}}
 \ProcessOptions\relax
@@ -41,12 +42,29 @@
         (\xcr@i) -- ({90-(\xcr@i+\xcr@j)*360/#1}:2)
       }
     } {
-      \foreach \xcr@j/\xcr@k[
-        evaluate=\xcr@j = \trim@spaces{\xcr@j},
-        evaluate=\xcr@k = \trim@spaces{\xcr@k},
-      ] in {#3} {
-        (\xcr@j) -- (\xcr@k)
+      \foreach \xcr@nodes in {#3} {
+        \expandafter\xcr@connect@nodes\xcr@nodes\relax
       }
+      %\foreach \xcr@j/\xcr@k[
+      %  evaluate=\xcr@j = \trim@spaces{\xcr@j},
+      %  evaluate=\xcr@k = \trim@spaces{\xcr@k},
+      %] in {#3} {
+      %  (\xcr@j) -- (\xcr@k)
+      %}
     }
   };
 }
+
+\def\xcr@connect@nodes#1\relax{
+  %\IfSubStr{aaa}{a} {
+    \xcr@connect@two@nodes#1\relax
+  %} {
+    %\xcr@connect@more@nodes#1\relax
+  %}
+}
+
+\def\xcr@connect@two@nodes#1 #2\relax{
+  (\trim@spaces{#1}) -- (\trim@spaces{#2})
+}
+
+\def\xcr@connect@more@nodes#1\relax{}
