@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{extchordalring}[2020/9/20 v0.1.0]
+\ProvidesPackage{extchordalring}[2020/9/20 v0.2.0]
 \RequirePackage{xparse}
 \RequirePackage{xstring}
 \RequirePackage{trimspaces}
@@ -33,7 +33,7 @@
     
     (90-\xcr@i*360/#1:2.5) node {\xcr@i}
 
-    \IfNoValueTF{#3} {
+    \IfNoValueT{#3} {
       (\xcr@i) -- ({90-(\xcr@i+1)*360/#1}:2)
 
       \foreach \xcr@j[
@@ -41,30 +41,25 @@
       ] in {#2} {
         (\xcr@i) -- ({90-(\xcr@i+\xcr@j)*360/#1}:2)
       }
-    } {
-      \foreach \xcr@nodes in {#3} {
-        \expandafter\xcr@connect@nodes\xcr@nodes\relax
-      }
-      %\foreach \xcr@j/\xcr@k[
-      %  evaluate=\xcr@j = \trim@spaces{\xcr@j},
-      %  evaluate=\xcr@k = \trim@spaces{\xcr@k},
-      %] in {#3} {
-      %  (\xcr@j) -- (\xcr@k)
-      %}
     }
   };
+  \IfNoValueF{#3} {
+    \foreach \xcr@path@nodes in {#3} {
+      \xcr@connect@nodes\xcr@path@nodes\relax
+    }
+  }
 }
 
 \def\xcr@connect@nodes#1\relax{
-  %\IfSubStr{aaa}{a} {
-    \xcr@connect@two@nodes#1\relax
-  %} {
-    %\xcr@connect@more@nodes#1\relax
-  %}
+  \setsepchar{ }
+  \readlist*\xcr@nodes@list{#1}
+  \foreachitem \xcr@node \in \xcr@nodes@list {
+    \ifx\xcr@node\empty
+    \else
+      \ifnum\xcr@nodecnt>1
+        \draw (\xcr@prev@node) -- (\xcr@node);
+      \fi
+      \edef\xcr@prev@node{\xcr@node}
+    \fi
+  }
 }
-
-\def\xcr@connect@two@nodes#1 #2\relax{
-  (\trim@spaces{#1}) -- (\trim@spaces{#2})
-}
-
-\def\xcr@connect@more@nodes#1\relax{}
