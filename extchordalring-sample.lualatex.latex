@@ -1,4 +1,4 @@
-\documentclass{ltjsarticle}
+\documentclass{article}
 \usepackage[noprefix]{extchordalring}
 \usepackage{showexpl}
 \usepackage{tikz}
@@ -9,81 +9,131 @@
   frame=tb,
   basicstyle=\ttfamily\bfseries,
   commentstyle=\color{darkgray},
-  keywordstyle=\color{blue}
+  keywordstyle=\color{blue},
+  language=[LaTeX]{TeX}
 }
 
+\mathchardef\mhyphen="2D
+
 \begin{document}
-\begin{LTXexample}[pos=r]
-%preambles
+\section{Getting started}
+
+You need to load the packages \lstinline{extchordalring} and \lstinline{tikz}
+in preambles to use this package.
+
+\begin{lstlisting}
 \usepackage{extchordalring}
 \usepackage{tikz}
+\end{lstlisting}
 
+\section{Standard rings}
+
+The command \lstinline{\xcrCR} is available within the environment \lstinline{tikzpicture}
+to draw a chordal ring or an extended, N-chordal ring.
+
+\begin{LTXexample}[pos=r]
 \begin{tikzpicture}
-  \xcrCR(14, 3)
-\end{tikzpicture}
+  \xcrCR(14, 3)  
+\end{tikzpicture}  
 \end{LTXexample}
 
 \begin{LTXexample}[pos=r]
+% 2-chordal ring CR(14, 3, 7)
 \begin{tikzpicture}
   \xcrCR(14, 3, 7)
 \end{tikzpicture}
 \end{LTXexample}
 
-\begin{LTXexample}[pos=r]
-\begin{tikzpicture}
-  \xcrCR(14)[
-    0 1,
-    1 2, 1 4, 1 8, 1 12,
-    2 3, 2 5, 2 9, 2 13,
-    4 7,
-    5 6,
-    9 10,
-    10 11
-  ]
-\end{tikzpicture}
-\end{LTXexample}
+\section{Drawing edges manually}
+
+Optionally, you can manually specify which edges should appear in the ring.
+
+Space-separated lists or space-separated pairs can be used to draw paths or edges in rings.
 
 \begin{LTXexample}[pos=r]
 \begin{tikzpicture}
   \xcrCR(14)[
     0 1 2 3,
-    5 6,
-    9 10 11,
+    6 5 2 9 10 11
+  ]
+\end{tikzpicture}  
+\end{LTXexample}
+
+You can also use the syntax $\langle a\ vertex\rangle$ \lstinline{adj} $\langle a\ space\mhyphen separated\ list\ of\ vertices\rangle$ to draw edges between a vertex and its adjacent vertices.
+
+\begin{LTXexample}[pos=r]
+\begin{tikzpicture}
+  \xcrCR(14)[
+    1 adj 4 8 12
+  ]
+\end{tikzpicture}
+\end{LTXexample}
+
+Furthermore, these notations can be used simultaneously with each other.
+
+\begin{LTXexample}[pos=r]
+\begin{tikzpicture}
+  \xcrCR(14)[
+    0 1 2 3, 5 6, 9 10 11,
     1 adj 4 8 12,
-    2 adj 5 9,
+    2 adj 5 9 13,
     4 7
   ]
 \end{tikzpicture}
 \end{LTXexample}
 
-\begin{LTXexample}[pos=r]
-\begin{tikzpicture}
-  \xcrCR(14)[
-    0 1 2 3,
-    12 1 4 7,
-    1 8,
-    13 2 5 6,
-    2 9 10 11
-  ]
-\end{tikzpicture}
-\end{LTXexample}
+A ring with no edges can be drawn by passing \lstinline{[]} as option.
 
 \begin{LTXexample}[pos=r]
 \begin{tikzpicture}
   \xcrCR(14)[]
 \end{tikzpicture}
+\end{LTXexample}
 
+\section{Styling and Preferences}
+
+The package provides some optional keys to change the styles or preferences of drawn chordal ring.
+
+You can set the optional key \lstinline{xcr radius} which is defaulted to 2, to change the radius of
+chordal rings.
+
+\begin{LTXexample}[pos=r]
+\begin{tikzpicture}
+  \xcrCR[xcr radius=3](14,3)
+\end{tikzpicture}
+\end{LTXexample}
+
+The key \lstinline{xcr node/style} can be used to style the vertices in chordal rings.
+
+\begin{LTXexample}[pos=r]
+\begin{tikzpicture}
+  \xcrCR[
+    xcr node/.style={
+      shape=circle,
+      minimum size=14pt,
+      draw=black,
+      fill=white,
+    }
+  ](14,3)
+\end{tikzpicture}
+\end{LTXexample}
+
+You can also set the options of styling and preferences through something like the command \lstinline{tikzset} or the options of the environment \lstinline{tikzpicture} as you can for other tikz options.
+
+
+\begin{LTXexample}[pos=r]
+\tikzset{xcr radius=15mm}
+
+\begin{tikzpicture}
+  \xcrCR(14,3)
+\end{tikzpicture}
 \end{LTXexample}
 
 \begin{LTXexample}[pos=r]
-%preambles
-%option noprefix defines \CR commands
-%without "xcr" prefix
-\usepackage[noprefix]{extchordalring}
-\usepackage{tikz}
-
-\begin{tikzpicture}
-  \CR(14, 3)
+\begin{tikzpicture}[
+    xcr radius=15mm,
+]
+  \xcrCR(14,3)
 \end{tikzpicture}
 \end{LTXexample}
 \end{document}
