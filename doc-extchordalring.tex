@@ -1,9 +1,17 @@
 \documentclass{article}
-\usepackage[noprefix]{extchordalring}
-\usepackage{showexpl}
-\usepackage{tikz}
-\usepackage{color}
 \usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{biolinum}
+\usepackage[noprefix]{extchordalring}
+\usepackage{tikz}
+\usepackage{showexpl}
+\usepackage{color}
+\usepackage{caption}
+
+\title{\topskip0pt\vspace*{\fill}\biolinum\bfseries\large Package \\ \Huge extchordalring}
+\author{Yuki Takagi \\ \normalsize takagiy.dev@gmail.com}
+\date{\vspace*{\fill}}
 
 \lstset{
   frame=tb,
@@ -16,6 +24,14 @@
 \mathchardef\mhyphen="2D
 
 \begin{document}
+\begin{titlepage}
+  \maketitle
+  \begin{table*}[b!]
+    \tableofcontents
+  \end{table*}
+  \thispagestyle{empty}
+\end{titlepage}
+
 \section{Getting started}
 
 You need to load the packages \lstinline{extchordalring} and \lstinline{tikz}
@@ -99,7 +115,7 @@ chordal rings.
 
 \begin{LTXexample}[pos=r]
 \begin{tikzpicture}
-  \xcrCR[xcr radius=3](14,3)
+  \xcrCR[xcr radius=3](14, 3)
 \end{tikzpicture}
 \end{LTXexample}
 
@@ -114,7 +130,7 @@ The key \lstinline{xcr node/style} can be used to style the vertices in chordal 
       draw=black,
       fill=white,
     }
-  ](14,3)
+  ](14, 3)
 \end{tikzpicture}
 \end{LTXexample}
 
@@ -125,7 +141,7 @@ You can also set the options of styling and preferences through something like t
 \tikzset{xcr radius=15mm}
 
 \begin{tikzpicture}
-  \xcrCR(14,3)
+  \xcrCR(14, 3)
 \end{tikzpicture}
 \end{LTXexample}
 
@@ -133,7 +149,7 @@ You can also set the options of styling and preferences through something like t
 \begin{tikzpicture}[
     xcr radius=15mm,
 ]
-  \xcrCR(14,3)
+  \xcrCR(14, 3)
 \end{tikzpicture}
 \end{LTXexample}
 \end{document}
