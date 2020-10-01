@@ -92,7 +92,7 @@ A ring with no edges can be drawn by passing \lstinline{[]} as option.
 
 \section{Styling and Preferences}
 
-The package provides some optional keys to change the styles or preferences of drawn chordal ring.
+The package provides some optional keys to change the styles or the preferences of drawn chordal rings.
 
 You can set the optional key \lstinline{xcr radius} which is defaulted to 2, to change the radius of
 chordal rings.
